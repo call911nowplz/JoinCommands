@@ -5,6 +5,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import me.call911.joincommands.JoinCommands;
 
@@ -12,21 +13,28 @@ public class Commands implements Listener {
 	private Plugin plugin = JoinCommands.getPlugin(JoinCommands.class);
 
 	@EventHandler
-
 	public void onJoin(PlayerJoinEvent event) {
-		plugin.saveDefaultConfig();
-		Player player = event.getPlayer();
-		if (!player.hasPlayedBefore()) {
-			String cmd1 = plugin.getConfig().getString("first-join-command");
+		 new BukkitRunnable() {
 
-			player.performCommand(cmd1);
+			@Override
+			public void run() {
+				plugin.saveDefaultConfig();
+				Player player = event.getPlayer();
+				if (!player.hasPlayedBefore()) {
+					String cmd1 = plugin.getConfig().getString("first-join-command");
 
-		} else {
+					player.performCommand(cmd1);
 
-			String cmd2 = plugin.getConfig().getString("command");
+				} else {
 
-			player.performCommand(cmd2);
+					String cmd2 = plugin.getConfig().getString("command");
 
-		}
+					player.performCommand(cmd2);
+
+				}
+				
+			}
+			 
+		 }.runTaskLater(this.plugin, 20);
 	}
 }
