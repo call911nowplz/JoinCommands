@@ -1,0 +1,8 @@
+name: joincommands
+author: call911
+version: 1.0.0
+main: me.call911.joincommands.JoinCommands
+description: Join/firstjoin commands
+
+
+
